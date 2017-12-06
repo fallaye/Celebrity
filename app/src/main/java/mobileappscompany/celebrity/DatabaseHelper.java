@@ -11,6 +11,8 @@ import android.provider.ContactsContract;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mobileappscompany.celebrity.DatabaseContract.CelebrityEntry.TABLE_NAME;
+
 /**
  * Created by fallaye on 12/4/17.
  */
@@ -22,12 +24,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //Create statements
     public static final String CREATE_CELEBRITY_TABLE =
-            "CREATE TABLE " + DatabaseContract.CelebrityEntry.TABLE_NAME +
+            "CREATE TABLE " + TABLE_NAME +
                     "(" + DatabaseContract.CelebrityEntry.ID + " TEXT PRIMARY KEY, " +
                     DatabaseContract.CelebrityEntry.NAME + " TEXT, " +
                     DatabaseContract.CelebrityEntry.AGE + " TEXT, " +
-                    DatabaseContract.CelebrityEntry.GENDER + " TEXT, " +
-                    DatabaseContract.CelebrityEntry.FAVORITE + " TEXT) ";
+                    DatabaseContract.CelebrityEntry.GENDER + " TEXT ) ";
 
 
     public DatabaseHelper(Context context) {
@@ -52,10 +53,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(DatabaseContract.CelebrityEntry.NAME, celebrity.getName());
         contentValues.put(DatabaseContract.CelebrityEntry.AGE, celebrity.getAge());
         contentValues.put(DatabaseContract.CelebrityEntry.GENDER, celebrity.getGender());
-        contentValues.put(DatabaseContract.CelebrityEntry.FAVORITE, celebrity.getFavorite());
 
-        long rowId = database.insert(DatabaseContract.CelebrityEntry.TABLE_NAME, null, contentValues);
+        long rowId = database.insert(TABLE_NAME, null, contentValues);
         return rowId;
+    }
+
+    public long updateCelebrity(Celebrity celebrity){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("id", celebrity.getId());
+        contentValues.put("name", celebrity.getName());
+        contentValues.put("age", celebrity.getAge());
+        contentValues.put("gender", celebrity.getGender());
+
+        return db.update(TABLE_NAME, contentValues, "id = " + celebrity.getId(), null);
     }
 
     public ArrayList<Celebrity> getAllCelebrities(){
@@ -63,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor celebrityCursor = db.rawQuery(
-                "SELECT * FROM " + DatabaseContract.CelebrityEntry.
+                "SELECT * FROM " +
                         TABLE_NAME, null);
 
         if(celebrityCursor.moveToFirst()) {
@@ -72,8 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         celebrityCursor.getString(0),
                         celebrityCursor.getString(1),
                         celebrityCursor.getString(2),
-                        celebrityCursor.getString(3),
-                        celebrityCursor.getString(4)
+                        celebrityCursor.getString(3)
                 );
                 celebrityList.add(celebrity);
             } while (celebrityCursor.moveToNext());
@@ -81,11 +92,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return  celebrityList;
     }
 
-
-
-
-
-
-
+    public boolean deleteCelebrity(String pId){
+        boolean result = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        try{
+            db.delete(TABLE_NAME, "id = ?", new String[]{ pId });
+            result = true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            db.close();
+        }
+        return result;
+    }
 
 }

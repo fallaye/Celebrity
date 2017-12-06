@@ -70,21 +70,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tvCelFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Favorite: "/>
-        <CheckBox
-            android:id="@+id/chBoxCelFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/btnAddCel"
@@ -106,6 +91,14 @@
             android:layout_height="wrap_content"
             android:text="Update"
             android:onClick="databaseOperations"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <Button
             android:id="@+id/btnShowAllCel"
             android:layout_width="wrap_content"
@@ -114,26 +107,11 @@
             android:onClick="databaseOperations"
             />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
         <Button
-            android:id="@+id/btnMakeCelFavorite"
+            android:id="@+id/btnSaveToFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Make Cel Favorite"
-            android:onClick="databaseOperations"
-            />
-
-        <Button
-            android:id="@+id/btnShowFavoriteCel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show Favorites"
+            android:text="Save To File"
             android:onClick="databaseOperations"
             />
 

@@ -11,14 +11,13 @@ import java.util.concurrent.CancellationException;
 
 public class Celebrity implements Parcelable{
 
-    String id, name, age, gender, favorite;
+    String id, name, age, gender;
 
-    public Celebrity(String id, String name, String age, String gender, String favorite) {
+    public Celebrity(String id, String name, String age, String gender) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.favorite = favorite;
     }
 
     protected Celebrity(Parcel in) {
@@ -26,7 +25,6 @@ public class Celebrity implements Parcelable{
         name = in.readString();
         age = in.readString();
         gender = in.readString();
-        favorite = in.readString();
     }
 
     public static final Creator<Celebrity> CREATOR = new Creator<Celebrity>() {
@@ -47,6 +45,10 @@ public class Celebrity implements Parcelable{
     }
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(name);
+        parcel.writeString(age);
+        parcel.writeString(gender);
     }
 
     public String getName() {
@@ -73,19 +75,14 @@ public class Celebrity implements Parcelable{
     public void setGender(String gender) {
         this.gender = gender;
     }
-    public void setFavorite(String favorite) {
-        this.favorite = favorite;
-    }
-    public String getFavorite() { return favorite; }
 
     @Override
     public String toString() {
         return "Celebrity{" + '\'' +
-                "id= " + id +
-                "name='" + name + '\'' +
+                "id= " + id + '\'' +
+                ", name='" + name + '\'' +
                 ", age='" + age + '\'' +
                 ", gender='" + gender + '\'' +
-                ", favorite='" + favorite + '\'' +
                 '}';
     }
 }
